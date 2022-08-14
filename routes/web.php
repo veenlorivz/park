@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ParkController;
+use App\Http\Controllers\KendaraanMasukController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +13,8 @@ use App\Http\Controllers\ParkController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::resource("dashboard", ParkController::class);
+Route::group(["prefix" => "dashboard"], function(){
+    Route::resource("parkir", KendaraanMasukController::class);
+    Route::post("/parkir/finish/", [KendaraanMasukController::class, "finish"]);
+    Route::post("/parkir/search/", [KendaraanMasukController::class, "search"]);
+});
