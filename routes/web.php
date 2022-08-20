@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\KendaraanKeluarController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KendaraanKeluarController;
 use App\Http\Controllers\KendaraanMasukController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,13 @@ use App\Http\Controllers\KendaraanMasukController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group(["prefix" => "dashboard"], function(){
-    Route::resource("parkir", KendaraanMasukController::class);
-    Route::post("/parkir/finish/", [KendaraanMasukController::class, "finish"]);
-    Route::post("/parkir/search/", [KendaraanMasukController::class, "search"]);
 
+Route::get("/", [AuthController::class, "index"])->name("login")->middleware("guest");
+Route::post("/login", [AuthController::class, "login"])->middleware("guest");
+Route::post("/logout", [AuthController::class, "logout"])->middleware("auth");
+
+Route::group(["prefix" => "dashboard", "middleware" => "auth"], function(){
+    Route::resource("/", KendaraanMasukController::class);
+    Route::post("/parkir/finish/", [KendaraanMasukController::class, "finish"]);
     Route::resource("arsip", KendaraanKeluarController::class);
 });
