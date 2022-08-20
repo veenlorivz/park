@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KendaraanKeluarController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KendaraanMasukController;
 
@@ -17,4 +18,6 @@ Route::group(["prefix" => "dashboard"], function(){
     Route::resource("parkir", KendaraanMasukController::class);
     Route::post("/parkir/finish/", [KendaraanMasukController::class, "finish"]);
     Route::post("/parkir/search/", [KendaraanMasukController::class, "search"]);
+
+    Route::resource("arsip", KendaraanKeluarController::class);
 });

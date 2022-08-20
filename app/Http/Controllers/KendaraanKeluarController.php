@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KendaraanKeluar;
+use App\Models\KendaraanMasuk;
 use Illuminate\Http\Request;
 
 class KendaraanKeluarController extends Controller
@@ -14,7 +15,9 @@ class KendaraanKeluarController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.arsip', [
+            'kendaraan' => KendaraanKeluar::all()
+        ]);
     }
 
     /**
@@ -78,8 +81,10 @@ class KendaraanKeluarController extends Controller
      * @param  \App\Models\KendaraanKeluar  $kendaraanKeluar
      * @return \Illuminate\Http\Response
      */
-    public function destroy(KendaraanKeluar $kendaraanKeluar)
+    public function destroy($id)
     {
-        //
+        $data = KendaraanKeluar::find($id);
+        $data->delete();
+        return view('dashboard.arsip', ['kendaraan' => KendaraanKeluar::all()])->with('Succes', 'Data Berhasil Dihapus');
     }
 }

@@ -40,7 +40,7 @@ class KendaraanMasukController extends Controller
     {
         //
     }
-    
+
     /**
      * Store a finished vehicle park resource in kendaraan_masuk.
      *
@@ -48,9 +48,9 @@ class KendaraanMasukController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function finish(Request $request)
-    {   
-        KendaraanKeluar::create($request->all());
+    {
         KendaraanMasuk::where("no_plat", $request->no_plat)->delete();
+        KendaraanKeluar::create($request->all());
         return redirect("/dashboard/parkir");
     }
 
@@ -61,8 +61,8 @@ class KendaraanMasukController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function search(Request $request)
-    {   
-        
+    {
+
         $kendaraan = KendaraanMasuk::where("no_plat", 'like', "%" . $request->search . "%")->paginate(5);
         return view("dashboard.index", [
             "kendaraan" => $kendaraan
