@@ -16,7 +16,7 @@ class KendaraanKeluarController extends Controller
     public function index()
     {
         return view('dashboard.arsip', [
-            'kendaraan' => KendaraanKeluar::all()
+            'kendaraan' => KendaraanKeluar::orderBy("created_at", "desc")->get()
         ]);
     }
 

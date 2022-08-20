@@ -11,23 +11,22 @@ class KendaraanMasukController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("dashboard.index", [
-            "kendaraan" => KendaraanMasuk::all()
-        ]);
-    }
+        $kendaraaan;
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        if($request->search){
+            $kendaraan =  KendaraanMasuk::where("no_plat", 'like', "%" . $request->search . "%")->paginate(5);
+        }else{
+            $kendaraan = KendaraanMasuk::orderBy("created_at", "DESC")->get();
+        }
+        return view("dashboard.index", [
+            "kendaraan" =>$kendaraan,
+            "search" => $request->search ? $request->search : ""
+        ]);
     }
 
     /**
@@ -38,7 +37,12 @@ class KendaraanMasukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        KendaraanMasuk::create([
+            "no_plat" => strtoupper($request->no_plat),
+            "merk_kendaraan" => $request->merk_kendaraan
+        ]);
+
+        return redirect("/dashboard");
     }
 
     /**
@@ -51,7 +55,7 @@ class KendaraanMasukController extends Controller
     {
         KendaraanMasuk::where("no_plat", $request->no_plat)->delete();
         KendaraanKeluar::create($request->all());
-        return redirect("/dashboard/parkir");
+        return redirect("/dashboard");
     }
 
     /**
@@ -66,6 +70,15 @@ class KendaraanMasukController extends Controller
         $kendaraan = KendaraanMasuk::where("no_plat", 'like', "%" . $request->search . "%")->paginate(5);
         return view("dashboard.index", [
             "kendaraan" => $kendaraan
+        ]);
+
+        $kendaraan = KendaraanMasuk::orderBy("created_at", "DESC")->get();
+
+        if($request->keyword != ''){
+            $kendaraan = Employee::where('no_plat','LIKE','%'.$request->keyword.'%')->get();
+        }
+        return response()->json([
+           'kendaraan' => $kendaraan
         ]);
     }
 
