@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.dashboard')
 
 @section('title')
     Dashboard
@@ -32,8 +32,8 @@
                             <thead>
                                 <tr>
                                     <th>No_Plat</th>
-                                    <th>Mrk Motor</th>
-                                    <th>Waktu Masuk</th>
+                                    <th>Merk Kendaraan</th>
+                                    <th>Waktu Keluar</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -42,12 +42,12 @@
                                     <tr>
                                         <td>{{ $k->no_plat }}</td>
                                         <td>{{ $k->merk_kendaraan }}</td>
-                                        <td>{{ date('Y-m-d, H:i:s', strtotime($k->created_at)) }}</td>
+                                        <td>{{ date('Y-m-d, H:i:s', strtotime($k->waktu_keluar)) }}</td>
                                         <td>
                                             <div class="d-flex">
                                                 <button data-bs-toggle="modal" data-bs-target="#modalSelesai"
-                                                    class="btn btn-warning"
-                                                    onclick="getDataModal( {{ $k }})">Detail</button>
+                                                    class="btn btn-primary"
+                                                    onclick="getDataArsipModal( {{ $k }})">Detail</button>
                                                 <form action="/dashboard/arsip/{{ $k->id }}" method="POST">
                                                     @csrf
                                                     @method('delete')
@@ -129,39 +129,13 @@
             </div>
     </main>
     <script type="text/javascript">
-        const getDataModal = (data) => {
-            const tanggal_masuk = data.created_at.split("T")[0]
-            const waktu_masuk = data.created_at.split("T")[1].split(".")[0]
-            const tanggal_keluar = new Date().toLocaleDateString("id-id").split("/");
-            const waktu_keluar = new Date().toLocaleTimeString("id-id").split(" ")[0];
-            const total_harga = intToRupiah(getTotalHarga(new Date(data.created_at.split(".")[0].split("T").join(",")),
-                new Date()))
-            const total_waktu = getTotalWaktu(new Date(data.created_at.split(".")[0].split("T").join(",")), new Date());
+        const getDataArsipModal = (data) => {
             document.querySelector("#no_plat").value = `${data.no_plat}`
             document.querySelector("#merk").value = `${data.merk_kendaraan}`
-            document.querySelector("#masuk").value = `${tanggal_masuk} ${waktu_masuk}`
-            document.querySelector("#keluar").value = `${tanggal_keluar} ${waktu_keluar}`
-            total_waktu === 0 ? document.querySelector("#total_waktu").value = `Tidak Sampai 1 Jam` : document
-                .querySelector("#total_waktu").value = `${total_waktu} Jam`
-            document.querySelector("#total_harga").value = `${total_harga}`
-        }
-
-        const getTotalHarga = (masuk, keluar) => {
-            const selisih = keluar.getTime() - masuk.getTime()
-            const total_harga = Math.round(selisih / 3600 * 2)
-            if (total_harga < 2000) return 2000
-            return total_harga
-        }
-
-        const getTotalWaktu = (masuk, keluar) => {
-            return Math.round((keluar.getTime() - masuk.getTime()) / 3600000)
-        }
-
-        const intToRupiah = (number) => {
-            return new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR"
-            }).format(number);
+            document.querySelector("#masuk").value = `${data.waktu_masuk}`
+            document.querySelector("#keluar").value = `${data.waktu_keluar}`
+            document.querySelector("#total_waktu").value = `${data.total_waktu}`
+            document.querySelector("#total_harga").value = `${data.total_harga}`
         }
     </script>
 @endsection
