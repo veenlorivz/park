@@ -134,7 +134,8 @@
             document.querySelector("#no_plat").value = `${data.no_plat}`
             document.querySelector("#merk").value = `${data.merk_kendaraan}`
             document.querySelector("#masuk").value = `${tanggal_masuk} ${waktu_masuk}`
-            document.querySelector("#keluar").value = `${tanggal_masuk} ${waktu_masuk}`
+            document.querySelector("#keluar").value =
+                `${tanggal_keluar[2]}-${tanggal_keluar[1]}-${tanggal_keluar[0]}, ${waktu_keluar}`
             total_waktu === 0 ? document.querySelector("#total_waktu").value = `Tidak Sampai 1 Jam` : document
                 .querySelector("#total_waktu").value = `${total_waktu} Jam`
             document.querySelector("#total_harga").value = `${total_harga}`

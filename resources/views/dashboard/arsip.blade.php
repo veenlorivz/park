@@ -42,12 +42,12 @@
                                     <tr>
                                         <td>{{ $k->no_plat }}</td>
                                         <td>{{ $k->merk_kendaraan }}</td>
-                                        <td>{{ date('Y, m, d, H:i:s', strtotime($k->created_at)) }}</td>
+                                        <td>{{ date('Y-m-d, H:i:s', strtotime($k->created_at)) }}</td>
                                         <td>
                                             <div class="d-flex">
                                                 <button data-bs-toggle="modal" data-bs-target="#modalSelesai"
                                                     class="btn btn-warning"
-                                                    onclick="getDetail( {{ $k }})">Detail</button>
+                                                    onclick="getDataModal( {{ $k }})">Detail</button>
                                                 <form action="/dashboard/arsip/{{ $k->id }}" method="POST">
                                                     @csrf
                                                     @method('delete')
@@ -122,9 +122,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-success" type="submit">Selesai</button>
-                                </div>
                             </form>
                         </div>
                     </div>
@@ -132,7 +129,7 @@
             </div>
     </main>
     <script type="text/javascript">
-        const getDetail = (data) => {
+        const getDataModal = (data) => {
             const tanggal_masuk = data.created_at.split("T")[0]
             const waktu_masuk = data.created_at.split("T")[1].split(".")[0]
             const tanggal_keluar = new Date().toLocaleDateString("id-id").split("/");
@@ -143,8 +140,7 @@
             document.querySelector("#no_plat").value = `${data.no_plat}`
             document.querySelector("#merk").value = `${data.merk_kendaraan}`
             document.querySelector("#masuk").value = `${tanggal_masuk} ${waktu_masuk}`
-            document.querySelector("#keluar").value =
-                `${tanggal_keluar[2]}-${tanggal_keluar[1]}-${tanggal_keluar[0]}, ${waktu_keluar}`
+            document.querySelector("#keluar").value = `${tanggal_keluar} ${waktu_keluar}`
             total_waktu === 0 ? document.querySelector("#total_waktu").value = `Tidak Sampai 1 Jam` : document
                 .querySelector("#total_waktu").value = `${total_waktu} Jam`
             document.querySelector("#total_harga").value = `${total_harga}`
