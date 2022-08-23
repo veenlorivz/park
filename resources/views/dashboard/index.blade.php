@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    Dashboard
+    Dashboard | Home
 @endsection
 
 @section('index', 'active')
@@ -16,12 +16,14 @@
             border: none;
             outline: none;
         }
-        .bi-plus{
+
+        .bi-plus {
             font-size: 32px;
             transform: translateY(-15%);
             cursor: pointer;
         }
-        .bi-arrow-clockwise{
+
+        .bi-arrow-clockwise {
             outline: none;
             border: none;
             margin-left: 10px;
@@ -47,7 +49,7 @@
                 @if ($search)
                     <form action="/dashboard" method="GET" class="form-search">
                         <button class="bi bi-arrow-clockwise"></button>
-                    </form>                    
+                    </form>
                 @endif
                 <i class="bi bi-plus" data-bs-toggle="modal" data-bs-target="#modalTambah"></i>
             </div>
@@ -69,13 +71,12 @@
                         </div>
                     </div>
                 </div>
-                @empty
-                    @if($search)
-                        <p class="text-muted fs-5 mt-3 fw-light">Tidak ada yang parkir dengan no_plat "{{ $search }}"</p>
-                    @else
-                        <p class="text-muted fs-5 mt-3 fw-light">Tidak ada yang parkir saat ini</p>
-
-                    @endif
+            @empty
+                @if ($search)
+                    <p class="text-muted fs-5 mt-3 fw-light">Tidak ada yang parkir dengan no_plat "{{ $search }}"</p>
+                @else
+                    <p class="text-muted fs-5 mt-3 fw-light">Tidak ada yang parkir saat ini</p>
+                @endif
             @endforelse
             @include('components.finish_modal')
             @include('components.add_modal')

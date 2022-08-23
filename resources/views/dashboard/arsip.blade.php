@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    Dashboard
+    Dashboard | Arsip
 @endsection
 
 @section('arsip', 'active')
@@ -46,7 +46,7 @@
                                         <td>
                                             <div class="d-flex">
                                                 <button data-bs-toggle="modal" data-bs-target="#modalSelesai"
-                                                    class="btn btn-primary"
+                                                    class="btn btn-warning"
                                                     onclick="getDataArsipModal( {{ $k }})">Detail</button>
                                                 <form action="/dashboard/arsip/{{ $k->id }}" method="POST">
                                                     @csrf

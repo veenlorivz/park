@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KendaraanKeluarController;
 use App\Http\Controllers\KendaraanMasukController;
@@ -24,4 +25,5 @@ Route::group(["prefix" => "dashboard", "middleware" => "auth"], function(){
     Route::resource("/", KendaraanMasukController::class);
     Route::post("/parkir/finish/", [KendaraanMasukController::class, "finish"]);
     Route::resource("arsip", KendaraanKeluarController::class);
+    Route::resource('account', AccountController::class);
 });

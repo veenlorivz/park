@@ -1,12 +1,12 @@
 <style>
-    .logout-button{
+    .logout-button {
         outline: none;
         border: none;
         background-color: transparent;
         padding: 0 0 0 2px;
     }
 
-    .logout-button:hover{
+    .logout-button:hover {
         color: red;
     }
 </style>
@@ -26,17 +26,18 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link @yield('account')" href="/dashboard/account/">
                     <span data-feather="user"></span>
                     My Account
                 </a>
             </li>
             <li class="nav-item">
-                <form class="nav-link text-danger logout" action="/logout" method="POST" style="cursor: pointer" id="myForm">
-                    @method("POST")
+                <form class="nav-link text-danger logout" action="/logout" method="POST" style="cursor: pointer"
+                    id="myForm">
+                    @method('POST')
                     @csrf
                     <button class="d-flex flex-row align-items-center logout-button" onclick="submitForm()">
-                        <span data-feather="log-out" ></span>
+                        <span data-feather="log-out"></span>
                         Logout
                     </button>
                 </form>
