@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
@@ -14,8 +16,8 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $user = User::all();
-        return view('dashboard.account', compact('user'));
+
+        return view('dashboard.account', ["user" =>  User::find(Auth::user()->id)]);
     }
 
     /**
@@ -73,15 +75,15 @@ class AccountController extends Controller
         $request->validate([
             'name' => ['string', 'min:3', 'max:191', 'required'],
             'email' => ['email', 'string', 'min:3', 'max:191', 'required'],
-            'password' => ['string', 'min:3', 'max:191', 'required'],
         ]);
 
         $user  = User::find($id);
+        $password = $request->password ? Hash::make($request->password) : $user->password;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
+        $user->password = $password;
         $user->update();
-        return view('dashboard.account', ['user' => User::all()]);
+        return redirect('/dashboard/account');
     }
 
     /**
